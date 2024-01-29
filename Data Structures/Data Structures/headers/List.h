@@ -21,7 +21,18 @@ namespace eik {
 			latestentry = latestentry->nextptr;
 			numOfElements++;
 		}
-	
+
+		void Insert(const Type& T, int index) {
+			entry* insert = new entry();
+			entry* atindex = findindex(index);
+			entry* prev = atindex->previousptr;
+			insert->previousptr = prev;
+			atindex->previousptr = insert;
+			insert->nextptr = atindex;
+			insert->value = T;
+			prev->nextptr = insert;
+			numOfElements++;
+		}
 	
 		void RemoveAt(int index) {
 			entry* item = findindex(index);
