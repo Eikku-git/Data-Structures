@@ -9,10 +9,6 @@ public:
 
 };
 
-class OutOfRangeException : public std::exception {
-public:
-};
-
 template <typename Type> 
 class List {
 
@@ -20,40 +16,41 @@ public:
 
 	List() {
 		starter = new entry();
-		nextptr = starter;
+		latestentry = starter;
 	}
 
 	void Add(const Type& T) {
-		nextptr->value = T;
-		nextptr->pointer = new entry();
-		nextptr = nextptr->pointer;
+		latestentry->value = T;
+		entry* next = new entry();
+		latestentry->nextptr = next;
+		next->previousptr = latestentry;
+		latestentry = latestentry->nextptr;
 		numOfElements++;
 	}
 
-	void Clear() {
-		delete starter;
+
+	void RemoveAt(int index) {
+		entry* item = findindex(index);
+		entry* previous = item->previousptr;
+		previous->nextptr = item->nextptr;
+		item->nextptr = NULL;
+		delete item;
 	}
 
 	int Count() {
 		return this->numOfElements;
 	}
 
-	const Type& operator[] (int index) {	
-		if (index >= numOfElements) {
-			throw OutOfRangeException();
-		}
-		else if (index < 0) {
-			throw OutOfRangeException();
-		}
-		entry* entry = starter;
-		for (int i = 0; i != index; i++) {
-			entry = entry->pointer;
-		}
-		return entry->value;
+	void Clear() {
+		delete starter;
+	}
+
+	const Type& operator[] (int index) {
+		return findindex(index)->value;
 	}
 
 	const Type& GetFirstEntry() {
-		return nextptr->value;
+		return latestentry->value;
 	}
 
 	~List() {
@@ -67,16 +64,25 @@ private:
 	struct entry {
 
 		Type value;
-		entry* pointer = nullptr;
+		entry* nextptr;
+		entry* previousptr;
 
 		~entry() {
-			delete pointer;
+			delete nextptr;
 			std::cout << "Deleted entry \n";
 		}
 	};
 
 	entry* starter;
-	entry* nextptr;
+	entry* latestentry;
+
+	inline entry* findindex(int index) {
+		entry* entry = starter;
+		for (int i = 0; i != index; i++) {
+			entry = entry->nextptr;
+		}
+		return entry;
+	}
 };
 
 void lol() {
@@ -87,6 +93,6 @@ void lol() {
 	obj2.hello = "Hi";
 	list.Add(obj);
 	list.Add(obj2);
-	std::cout << list[0].hello;
-	std::cout << list.Count();
+	std::cout << list[list.Count() - 1].hello << "\n";
+	list.RemoveAt(1);
 }
