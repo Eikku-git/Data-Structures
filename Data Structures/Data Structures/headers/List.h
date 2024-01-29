@@ -54,10 +54,6 @@ namespace eik {
 			return findindex(index)->value;
 		}
 	
-		const Type& GetFirstEntry() {
-			return latestentry->value;
-		}
-	
 		~List() {
 			delete starter;
 		}

@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="headers\DynamicArray.h" />
     <ClInclude Include="headers\List.h" />
   </ItemGroup>
   <ItemGroup>
