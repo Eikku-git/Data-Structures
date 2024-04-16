@@ -6,13 +6,13 @@
 void quickSort(int arr[], int start, int end);
 
 int main() {
-	//eik::List<int> intList;
-	//intList.Add(3);
-	//intList.Add(2);
-	//intList.Add(5);
-	//intList.Insert(7, 2);
-	//intList.RemoveAt(1);
-	//std::cout << intList[0] + intList[1] << "\n";
+	eik::List<int> intList;
+	intList.Add(3);
+	intList.Add(2);
+	intList.Add(5);
+	intList.Insert(7, 2);
+	intList.RemoveAt(1);
+	std::cout << intList[0] + intList[1] << "\n";
 	int arr[5] = { 85, 745, 2345, 234, 540 };
 	quickSort(arr, 0, 5);
 	std::string str;
